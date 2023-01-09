@@ -1,0 +1,9 @@
+
+# experiments
+./experiments/**
+
+# cache files
+__pycache__/
+*.pyc
+
+
