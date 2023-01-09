@@ -1,6 +1,9 @@
 
 # experiments
-./experiments/**
+experiments/*
+
+# data
+data/*
 
 # cache files
 __pycache__/
