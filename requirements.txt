@@ -1,5 +1,5 @@
-pandas
 numpy
+pandas
 pillow
 scikit-learn
 tabulate
