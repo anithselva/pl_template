@@ -32,4 +32,4 @@ class MNIST(Dataset):
         return img, target
 
     def __len__(self):
-        return len(self.metadata)-1000
+        return len(self.metadata)
