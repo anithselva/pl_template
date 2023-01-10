@@ -44,3 +44,7 @@ git push
 ```
 
 `pre-commit` will run various checks and make appropriate modifications to the staged files. Files will need to be re-staged after any changes made from pre-commit
+
+# Future Work
+
+- Dockerization
