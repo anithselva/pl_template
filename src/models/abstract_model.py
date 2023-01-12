@@ -44,15 +44,14 @@ class Abstract_Model(pl.LightningModule):
         return {'loss': loss, 'preds': prediction, 'target': y}
 
     def training_epoch_end(self, outputs):
-        train_loss = torch.stack([x['val_loss'] for x in outputs]).mean()
+        train_loss = torch.stack([x['loss'] for x in outputs]).mean()
         mlflow.log_metric('train_loss', train_loss)
 
     def validation_epoch_end(self, outputs):
-        val_loss = torch.stack([x['val_loss'] for x in outputs]).mean()
+        val_loss = torch.stack([x['loss'] for x in outputs]).mean()
         mlflow.log_metric('val_loss', val_loss)
 
     def test_epoch_end(self, outputs):
-
         test_loss = torch.stack([x['loss'] for x in outputs]).mean()
         preds = torch.cat([x['preds'] for x in outputs])
         target = torch.cat([x['target'] for x in outputs])

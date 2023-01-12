@@ -31,10 +31,13 @@ def main():
     mlflow.set_tracking_uri(save_dir)
     experiment = mlflow.get_experiment_by_name(config.exp_name)
     if not experiment:
-        experiment = mlflow.create_experiment(
-            config.exp_name, artifact_location=Path.cwd().joinpath(save_dir).as_uri())
+        exp_id = mlflow.create_experiment(
+            config.exp_name, artifact_location=Path.cwd().joinpath(save_dir).as_uri(),
+        )
+    else:
+        exp_id = experiment.experiment_id
 
-    mlflow.start_run(experiment_id=experiment.experiment_id)
+    mlflow.start_run(experiment_id=exp_id)
     run = mlflow.active_run()
     exp_id, run_id = run.info.experiment_id, run.info.run_uuid
     log_dir = os.path.join(save_dir, exp_id, run_id, 'artifacts')

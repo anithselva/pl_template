@@ -18,6 +18,11 @@ This repo contains a flexible framework for config-based model development. This
 ├── requirements        - python deps
 ```
 
+## Environment Install
+
+`conda env create -n <name> python = 3.8.5`
+`pip install -r requirements.txt`
+
 ## Experiment Tracking
 
 ML Flow is used for experiment tracking. All artifacts and logs are stored in the experiment folder.
@@ -33,6 +38,8 @@ and directing your browser to:
 ## Pre-Commit
 
 Pre-commit hooks is used to maintain good SW practices and consistency.
+
+Installation: `pre-commit install`
 
 Use the following git flow:
 ```
