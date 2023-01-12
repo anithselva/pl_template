@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import mlflow
 import pytorch_lightning as pl
 import tabulate
 import torch
@@ -24,18 +25,14 @@ class Abstract_Model(pl.LightningModule):
         logits = self.forward(x.float())
         loss = self.loss(logits, y)
 
-        logs = {'train_loss': loss}
-        self.log('loss', loss)
-
-        return {'loss': loss, 'log': logs}
+        return {'loss': loss}
 
     def validation_step(self, val_batch, batch_idx):
         x, y = val_batch
         logits = self.forward(x.float())
         loss = self.loss(logits, y)
-        self.log('loss', loss)
 
-        return {'val_loss': loss}
+        return {'loss': loss}
 
     def test_step(self, test_batch, batch_idx):
         x, y = test_batch
@@ -44,28 +41,32 @@ class Abstract_Model(pl.LightningModule):
         loss = self.loss(logits, y)
         prediction = torch.argmax(logits, dim=1)
 
-        return {'test_loss': loss, 'preds': prediction, 'target': y}
+        return {'loss': loss, 'preds': prediction, 'target': y}
+
+    def training_epoch_end(self, outputs):
+        train_loss = torch.stack([x['val_loss'] for x in outputs]).mean()
+        mlflow.log_metric('train_loss', train_loss)
 
     def validation_epoch_end(self, outputs):
-        avg_loss = torch.stack([x['val_loss'] for x in outputs]).mean()
-        tensorboard_logs = {'val_loss': avg_loss}
-        return {'avg_val_loss': avg_loss, 'log': tensorboard_logs}
+        val_loss = torch.stack([x['val_loss'] for x in outputs]).mean()
+        mlflow.log_metric('val_loss', val_loss)
 
     def test_epoch_end(self, outputs):
 
+        test_loss = torch.stack([x['loss'] for x in outputs]).mean()
         preds = torch.cat([x['preds'] for x in outputs])
         target = torch.cat([x['target'] for x in outputs])
         metrics_dict = self._shared_eval_step(preds, target)
 
-        avg_loss = torch.stack([x['test_loss'] for x in outputs]).mean()
-        metrics_dict['avg_loss'] = avg_loss
+        metrics_dict['test_loss'] = test_loss.item()
+
         print(
             tabulate.tabulate(
                 list(metrics_dict.items()), ['metric', 'value'],
             ),
         )
 
-        return metrics_dict
+        mlflow.log_metrics(metrics_dict)
 
     def _shared_eval_step(self, preds, target):
         metrics_dict = {}
@@ -79,4 +80,4 @@ class Abstract_Model(pl.LightningModule):
 
     def configure_optimizers(self):
         optimizer = torch.optim.Adam(self.parameters(), lr=1e-3)
-        return
+        return optimizer

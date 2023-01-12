@@ -32,7 +32,4 @@ class MNISTClassifier(nn.Module):
         # layer 3 (b, 256) -> (b, 10)
         x = self.layer_3(x)
 
-        # probability distribution over labels
-        x = torch.softmax(x, dim=1)
-
         return x
