@@ -13,8 +13,8 @@ from utils.dirs import create_dirs
 
 
 def setup_logging(log_dir):
-    log_file_format = '[%(levelname)s] - %(asctime)s - %(name)s - : %(message)s in %(pathname)s:%(lineno)d'
-    log_console_format = '[%(levelname)s]: %(message)s'
+    log_file_format = "[%(levelname)s] - %(asctime)s - %(name)s - : %(message)s in %(pathname)s:%(lineno)d"
+    log_console_format = "[%(levelname)s]: %(message)s"
 
     # Main logger
     main_logger = logging.getLogger()
@@ -25,13 +25,17 @@ def setup_logging(log_dir):
     console_handler.setFormatter(Formatter(log_console_format))
 
     exp_file_handler = RotatingFileHandler(
-        f'{log_dir}/exp_debug.log', maxBytes=10**6, backupCount=5,
+        f"{log_dir}/exp_debug.log",
+        maxBytes=10**6,
+        backupCount=5,
     )
     exp_file_handler.setLevel(logging.DEBUG)
     exp_file_handler.setFormatter(Formatter(log_file_format))
 
     exp_errors_file_handler = RotatingFileHandler(
-        f'{log_dir}/exp_error.log', maxBytes=10**6, backupCount=5,
+        f"{log_dir}/exp_error.log",
+        maxBytes=10**6,
+        backupCount=5,
     )
     exp_errors_file_handler.setLevel(logging.WARNING)
     exp_errors_file_handler.setFormatter(Formatter(log_file_format))
@@ -58,7 +62,7 @@ def get_config_from_json(json_file):
             config = EasyDict(config_dict)
             return config, config_dict
         except ValueError:
-            print('INVALID JSON file format.. Please provide a good json file')
+            print("INVALID JSON file format.. Please provide a good json file")
             exit(-1)
 
 
@@ -74,16 +78,16 @@ def process_config(json_file):
     :return: config object(namespace)
     """
     config, _ = get_config_from_json(json_file)
-    print(' THE Configuration of your experiment ..')
+    print(" THE Configuration of your experiment ..")
     pprint(config)
 
     # making sure that you have provided the exp_name.
     try:
-        print(' *************************************** ')
-        print(f'The experiment name is {config.exp_name}')
-        print(' *************************************** ')
+        print(" *************************************** ")
+        print(f"The experiment name is {config.exp_name}")
+        print(" *************************************** ")
     except AttributeError:
-        print('ERROR!!..Please provide the exp_name in json file..')
+        print("ERROR!!..Please provide the exp_name in json file..")
         exit(-1)
 
     return config

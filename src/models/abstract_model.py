@@ -25,14 +25,14 @@ class Abstract_Model(pl.LightningModule):
         logits = self.forward(x.float())
         loss = self.loss(logits, y)
 
-        return {'loss': loss}
+        return {"loss": loss}
 
     def validation_step(self, val_batch, batch_idx):
         x, y = val_batch
         logits = self.forward(x.float())
         loss = self.loss(logits, y)
 
-        return {'loss': loss}
+        return {"loss": loss}
 
     def test_step(self, test_batch, batch_idx):
         x, y = test_batch
@@ -41,27 +41,28 @@ class Abstract_Model(pl.LightningModule):
         loss = self.loss(logits, y)
         prediction = torch.argmax(logits, dim=1)
 
-        return {'loss': loss, 'preds': prediction, 'target': y}
+        return {"loss": loss, "preds": prediction, "target": y}
 
     def training_epoch_end(self, outputs):
-        train_loss = torch.stack([x['loss'] for x in outputs]).mean()
-        mlflow.log_metric('train_loss', train_loss)
+        train_loss = torch.stack([x["loss"] for x in outputs]).mean()
+        mlflow.log_metric("train_loss", train_loss)
 
     def validation_epoch_end(self, outputs):
-        val_loss = torch.stack([x['loss'] for x in outputs]).mean()
-        mlflow.log_metric('val_loss', val_loss)
+        val_loss = torch.stack([x["loss"] for x in outputs]).mean()
+        mlflow.log_metric("val_loss", val_loss)
 
     def test_epoch_end(self, outputs):
-        test_loss = torch.stack([x['loss'] for x in outputs]).mean()
-        preds = torch.cat([x['preds'] for x in outputs])
-        target = torch.cat([x['target'] for x in outputs])
+        test_loss = torch.stack([x["loss"] for x in outputs]).mean()
+        preds = torch.cat([x["preds"] for x in outputs])
+        target = torch.cat([x["target"] for x in outputs])
         metrics_dict = self._shared_eval_step(preds, target)
 
-        metrics_dict['test_loss'] = test_loss.item()
+        metrics_dict["test_loss"] = test_loss.item()
 
         print(
             tabulate.tabulate(
-                list(metrics_dict.items()), ['metric', 'value'],
+                list(metrics_dict.items()),
+                ["metric", "value"],
             ),
         )
 

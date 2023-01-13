@@ -7,18 +7,17 @@ from torch.utils.data import Dataset
 
 
 class MNIST(Dataset):
-
     def __init__(self, config, mode=None):
         self.config = config
-        self.mode = self.config['mode'] if mode is None else mode
-        self.data_dir = self.config['dataset'][self.mode]['dir']
+        self.mode = self.config["mode"] if mode is None else mode
+        self.data_dir = self.config["dataset"][self.mode]["dir"]
 
         # In this example, metadata and data is combined
         self.metadata = self.get_metadata()
 
     def get_metadata(self):
         metadata_path = os.path.join(
-            self.config['dataset'][self.mode]['metadata'],
+            self.config["dataset"][self.mode]["metadata"],
         )
         metadata = pd.read_csv(metadata_path)
         return metadata
