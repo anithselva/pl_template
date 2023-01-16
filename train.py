@@ -6,6 +6,7 @@ from pathlib import Path
 import mlflow
 import pytorch_lightning as pl
 import torch
+from omegaconf import OmegaConf
 from pytorch_lightning.loggers import MLFlowLogger
 
 import dataset
@@ -24,8 +25,7 @@ def main():
     )
     args = arg_parser.parse_args()
 
-    # parse the config json file
-    config = process_config(args.config)
+    config = OmegaConf.load(args.config)
 
     save_dir = "./experiments"
     mlflow.set_tracking_uri(save_dir)

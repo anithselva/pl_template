@@ -20,7 +20,10 @@ This repo contains a flexible framework for config-based model development. This
 
 ## Environment Install
 
-`conda env create -n <name> python = 3.8.5`
+`conda env create -n <env_name> python=3.8.5`
+
+`conda activate <env_name>`
+
 `pip install -r requirements.txt`
 
 ## Experiment Tracking
