@@ -1,0 +1,22 @@
+exp_name: vanilla_exp_1
+mode: train
+dataset:
+  train:
+    name: mnist
+    dir: "./data/"
+    metadata: "./data/mnist_train.csv"
+  test:
+    name: mnist
+    dir: "./data/"
+    metadata: "./data/mnist_test.csv"
+model:
+  _model:
+    name: MNISTClassifier
+    args:
+      sample_arg: sample_value
+  loss:
+    type: CrossEntropy
+    args:
+      sample_arg: sample_value
+  metrics:
+  - accuracy
