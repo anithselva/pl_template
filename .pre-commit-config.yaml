@@ -35,11 +35,11 @@ repos:
     - id: black
       language_version: python3.8
       args: # arguments to configure black
-        - --line-length=79
--   repo: https://github.com/pre-commit/mirrors-autopep8
-    rev: v2.0.1
-    hooks:
-    -   id: autopep8
+        - --line-length=88
+# -   repo: https://github.com/pre-commit/mirrors-autopep8
+#     rev: v2.0.1
+#     hooks:
+#     -   id: autopep8
 -   repo: https://github.com/PyCQA/flake8
     rev: 6.0.0
     hooks:
