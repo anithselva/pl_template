@@ -1,6 +1,6 @@
 # PyTorch Lightning Project Template
 
-This repo contains a flexible framework for config-based model development. This structure is designed to allow for drop in models, losses, and metrics, through modularized components. Adoption of this flow will allow for easy, flexible, and reproducible development.
+This repo contains a **minimal-footprint** framework for config-based model development. This structure is designed to allow for drop in models, losses, and metrics, through modularized components. Adoption of this flow will allow for easy, flexible, and reproducible development.
 ## Folder Structure
 
 ```.
@@ -14,8 +14,8 @@ This repo contains a flexible framework for config-based model development. This
 │   ├── models
 ├── utils               - commonly used general functions
 ├── README.md
-└── train.py            - main loop
-├── requirements        - python deps
+├── train.py            - main loop
+└── requirements        - python deps
 ```
 
 ## Environment Install
@@ -58,3 +58,5 @@ git push
 # Future Work
 
 - Dockerization
+- Hyperparam Tuning Support
+- Testing
